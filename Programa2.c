@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 void ordenArreglo(char *arreglo[]){
 	int i, j, key, m = 50;
 	char *aux;
 	for (j = 1; j < m; j++){
-        key = (int)arreglo[j][0];
         aux = arreglo[j];
         i = j - 1;
-        while ((i > -1) && (arreglo[i][0] > key)){
+        while ((i > -1) && (strcmp(arreglo[i], aux) > 0)){
             arreglo[i + 1] = arreglo[i];
             i = i - 1;
         }

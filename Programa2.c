@@ -4,7 +4,7 @@
 #include <string.h>
 
 void ordenArreglo(char *arreglo[]){
-	int i, j, key, m = 50;
+	int i, j, m = 50;
 	char *aux;
 	for (j = 1; j < m; j++){
         aux = arreglo[j];

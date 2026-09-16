@@ -115,8 +115,20 @@ double ordenArreglo(int arreglo[], int m){
     return diferencia;
 }
 
+
+
 void programa1(){
 	srand(time(NULL));
+	int E = pedirEntero("Elige el tipo de arreglo a ordenar:\n1) Arreglo ordenado\t2) Arreglo invertido\t3) Arreglo aleatorio\n");
+	switch (E){
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+	}
+
 	int m = pedirEntero("Cuantos valores desea ordenar?\n");
 	int arreglo[m];
 	llenarArreglo(arreglo, m, "random");

@@ -15,7 +15,7 @@ float calcularMediana(int arreglo[], int m){
 	return mediana;
 }
 
-void ordenArreglo(int arreglo[], int m){
+void orden(int arreglo[], int m){
 	int i, j, key;
 	for (j = 1; j < m; j++){
         key = arreglo[j];
@@ -42,11 +42,17 @@ int generarRandom(){
 	return rand() % 199 - 99;
 }
 
-void llenarArreglo(int arreglo[], int m){
-	for (int i = 0; i < m; i++)
-	{
-		arreglo[i] = generarRandom();
-	}
+void llenarArreglo(int arreglo[], int m, char *select){
+    if (select == "random"){
+        for (int i = 0; i < m; i++){
+            arreglo[i] = generarRandom();
+        }
+    }
+    if (select == "cero"){
+        for (int i = 0; i < m; i++){
+            arreglo[i] = 0;
+        }
+    }
 }
 
 
@@ -65,20 +71,64 @@ int pedirEntero(char msj[]){
     }
 }
 
+void ordenPasos(int arreglo[], int m){
+    int copia[m];
+    llenarArreglo(copia, m, "cero");
+    printf("\n\n%-64s%s\n", "Arreglo Ordenado", "Datos por Ordenar");
+    for (int j = 0; j < m; j++){
+        int key = arreglo[j];
+        int i = j - 1;
+        while (i >= 0 && copia[i] > key){
+            copia[i + 1] = copia[i];
+            i--;
+        }
+        copia[i + 1] = key;
+        printArr(copia, j + 1, "|");
+        for (int e = 0; e < 64 - (1 + 6 * (j + 1)); e++){
+            printf(" ");
+        }
+        if (j + 1 < m){
+            printArr(arreglo + j + 1, m - j - 1, "|");
+        }
+        printf("\n");
+    }
+    for (int i = 0; i < m; i++){
+        arreglo[i] = copia[i];
+    }
+}
+
+void mostrarTiempo(double diferencia){
+    int milisegundos = (double)(diferencia) * 1000.0 / CLOCKS_PER_SEC;
+    printf("\n\nTiempo de ordenamiento: %d ms", milisegundos);
+}
+
+double ordenArreglo(int arreglo[], int m){
+    clock_t inicio = clock();
+    if (m > 10){
+        orden(arreglo, m);
+    }
+    else{
+        ordenPasos(arreglo, m);
+    }
+    clock_t fin = clock();
+    double diferencia = (double)(fin - inicio);
+    return diferencia;
+}
+
 void programa1(){
 	srand(time(NULL));
 	int m = pedirEntero("Cuantos valores desea ordenar?\n");
 	int arreglo[m];
-	llenarArreglo(arreglo, m);
+	llenarArreglo(arreglo, m, "random");
 	printArr(arreglo, m, "\nArreglo desordenado:\n|");
-	ordenArreglo(arreglo, m);
+	double tiempo = ordenArreglo(arreglo, m);
 	printArr(arreglo, m, "\n\nArreglo Ordenado:\n|");
+    mostrarTiempo(tiempo);
 	float mediana = calcularMediana(arreglo, m);
 	printf("\n\nLa mediana en el arreglo de numero es: %.2f\n", mediana);
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]){
 	programa1();
 	return 0;
 }
